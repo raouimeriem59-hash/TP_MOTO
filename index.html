@@ -954,16 +954,26 @@ function submitCheckout(e){
     const phone = document.getElementById('coPhone').value.trim();
     const city = document.getElementById('coCity').value.trim();
     const address = document.getElementById('coAddress').value.trim();
-    const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
-    let msg = currentLang === 'fr' ? '*🚂 Nouvelle Commande TP MOTO*\n\n' : '*🚂 طلب جديد TP MOTO*\n\n';
-    msg += currentLang === 'fr' ? '*🛒 Articles:*\n' : '*🛒 المنتجات:*\n';
-    cart.forEach((item, idx) => {
-        const itemName = item['name_' + currentLang] || item.name_fr;
-        msg += `${idx + 1}. ${itemName} x${item.qty} = ${item.price * item.qty} MAD\n`;
-    });
-    msg += `\n*💰 ${t('cart_total')}:* ${total} MAD`;
-    msg += `\n*🚚 Livraison:* ${shippingFee} MAD`;
-    msg += `\n*✅ Total Complete:* ${totalComplete} MAD`;
+   const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+const shippingFee = 25;
+const totalComplete = total + shippingFee;
+
+let msg = currentLang === 'fr'
+    ? '*🚂 Nouvelle Commande TP MOTO*\n\n'
+    : '*🚂 طلب جديد TP MOTO*\n\n';
+
+msg += currentLang === 'fr'
+    ? '*🛒 Articles:*\n'
+    : '*🛒 المنتجات:*\n';
+
+cart.forEach((item, idx) => {
+    const itemName = item['name_' + currentLang] || item.name_fr;
+    msg += `${idx + 1}. ${itemName} x${item.qty} = ${item.price * item.qty} MAD\n`;
+});
+
+msg += `\n*💰 ${t('cart_total')}:* ${total} MAD`;
+msg += `\n*🚚 Livraison:* ${shippingFee} MAD`;
+msg += `\n*✅ Total Complete:* ${totalComplete} MAD`;
     msg += `\n\n*👤 ${currentLang === 'fr' ? 'Client' : 'العميل'}:*`;
     msg += `\n- ${currentLang === 'fr' ? 'Nom' : 'الاسم'}: ${name}`;
     msg += `\n- ${currentLang === 'fr' ? 'Email' : 'البريد'}: ${email}`;
