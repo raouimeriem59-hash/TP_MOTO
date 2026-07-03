@@ -854,7 +854,8 @@ function updateCartUI(){
             </div>
         `).join('');
         footer.style.display = 'block';
-        document.getElementById('cart-total-price').textContent = total + ' MAD';
+        const totalComplete = total + 25;
+        document.getElementById('cart-total-price').textContent = totalComplete + ' MAD';
         document.querySelector('.checkout-btn').textContent = t('cart_order');
         document.querySelector('.clear-btn').textContent = t('cart_clear');
     }
@@ -917,6 +918,8 @@ function checkout(){
         return;
     }
     const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+    const shippingFee = 25;
+    const totalComplete = total + shippingFee;
     closeCart();
     let summary = '';
     cart.forEach((item, idx) => {
@@ -924,6 +927,8 @@ function checkout(){
         summary += `${idx + 1}. ${name} x${item.qty} = ${item.price * item.qty} MAD<br>`;
     });
     summary += `<br><strong>${t('cart_total')}: ${total} MAD</strong>`;
+    summary += `<br><strong>Livraison: ${shippingFee} MAD</strong>`;
+    summary += `<br><strong>Total Complete: ${totalComplete} MAD</strong>`;
     document.getElementById('checkoutSummary').innerHTML = summary;
     const T = TRANSLATIONS[currentLang];
     document.getElementById('coName').placeholder = T['contact_name'] || 'Votre Nom';
